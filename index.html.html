@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ماشین‌حساب سود و زیان رمزارز</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px 14px;
+      font-family: Tahoma, Arial, sans-serif;
+      background: #f1f5f9;
+      color: #172033;
+    }
+
+    .container {
+      max-width: 520px;
+      margin: 20px auto;
+      padding: 26px;
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      font-size: 25px;
+      text-align: center;
+      margin-top: 0;
+      color: #174ea6;
+    }
+
+    .intro {
+      text-align: center;
+      line-height: 1.9;
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    label {
+      display: block;
+      margin-top: 18px;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #cbd5e1;
+      border-radius: 9px;
+      font-size: 16px;
+      direction: ltr;
+      text-align: left;
+    }
+
+    input:focus {
+      outline: 2px solid #93c5fd;
+      border-color: #2563eb;
+    }
+
+    .hint {
+      margin-top: 5px;
+      color: #64748b;
+      font-size: 12px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 24px;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #2563eb;
+      color: white;
+      font-size: 17px;
+      font-family: inherit;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    .result {
+      display: none;
+      margin-top: 24px;
+      padding: 20px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+    }
+
+    .result h2 {
+      margin-top: 0;
+      font-size: 19px;
+    }
+
+    .big-number {
+      font-size: 30px;
+      font-weight: bold;
+      direction: ltr;
+      text-align: center;
+      overflow-wrap: anywhere;
+    }
+
+    .profit {
+      color: #15803d;
+    }
+
+    .loss {
+      color: #dc2626;
+    }
+
+    .neutral {
+      color: #475569;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .row:last-child {
+      border-bottom: none;
+    }
+
+    .row span:last-child {
+      direction: ltr;
+      text-align: left;
+      font-weight: bold;
+    }
+
+    .error {
+      display: none;
+      margin-top: 15px;
+      color: #b91c1c;
+      background: #fef2f2;
+      padding: 12px;
+      border-radius: 8px;
+      line-height: 1.8;
+    }
+
+    footer {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 12px;
+      color: #64748b;
+      line-height: 1.9;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <h1>ماشین‌حساب سود و زیان رمزارز</h1>
+
+    <p class="intro">
+      مبلغ خرید و فروش و کارمزدها را وارد کن
+      تا سود یا زیان خالصت محاسبه شود.
+    </p>
+
+    <label for="buy">مبلغ خرید (دلار)</label>
+    <input id="buy" type="number" min="0" step="any"
+           placeholder="مثلاً 200">
+
+    <label for="sell">مبلغ فروش (دلار)</label>
+    <input id="sell" type="number" min="0" step="any"
+           placeholder="مثلاً 250">
+
+    <label for="buyFee">کارمزد خرید (دلار)</label>
+    <input id="buyFee" type="number" min="0" step="any"
+           value="0">
+
+    <label for="sellFee">کارمزد فروش (دلار)</label>
+    <input id="sellFee" type="number" min="0" step="any"
+           value="0">
+
+    <p class="hint">
+      اگر کارمزد را به درصد می‌دانی، ابتدا آن را به مبلغ دلار تبدیل کن.
+    </p>
+
+    <button onclick="calculate()">محاسبه سود و زیان</button>
+
+    <div id="error" class="error" role="alert"></div>
+
+    <section id="result" class="result" aria-live="polite">
+      <h2>نتیجه محاسبه</h2>
+
+      <div id="status" class="big-number"></div>
+
+      <div class="row">
+        <span>مبلغ خرید</span>
+        <span id="buyOutput"></span>
+      </div>
+
+      <div class="row">
+        <span>مبلغ فروش</span>
+        <span id="sellOutput"></span>
+      </div>
+
+      <div class="row">
+        <span>مجموع کارمزد</span>
+        <span id="feeOutput"></span>
+      </div>
+
+      <div class="row">
+        <span>سود یا زیان خالص</span>
+        <span id="netOutput"></span>
+      </div>
+
+      <div class="row">
+        <span>درصد سود یا زیان</span>
+        <span id="percentOutput"></span>
+      </div>
+    </section>
+
+    <footer>
+      این ابزار آموزشی است و قیمت زنده رمزارزها را نمایش نمی‌دهد.
+      نتیجه تقریبی است و هزینه‌های دیگری ممکن است وجود داشته باشند.
+    </footer>
+  </main>
+
+  <script>
+    function money(number) {
+      return number.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }) + " USD";
+    }
+
+    function calculate() {
+      const buy = Number(document.getElementById("buy").value);
+      const sell = Number(document.getElementById("sell").value);
+      const buyFee = Number(document.getElementById("buyFee").value);
+      const sellFee = Number(document.getElementById("sellFee").value);
+
+      const error = document.getElementById("error");
+      const result = document.getElementById("result");
+
+      error.style.display = "none";
+      result.style.display = "none";
+
+      const fields = [
+        document.getElementById("buy"),
+        document.getElementById("sell"),
+        document.getElementById("buyFee"),
+        document.getElementById("sellFee")
+      ];
+
+      for (const field of fields) {
+        if (field.value.trim() === "") {
+          error.textContent = "لطفاً همه مبلغ‌ها را وارد کن. اگر کارمزد نداری، صفر بنویس.";
+          error.style.display = "block";
+          return;
+        }
+      }
+
+      if (![buy, sell, buyFee, sellFee].every(Number.isFinite)) {
+        error.textContent = "لطفاً فقط عدد معتبر وارد کن.";
+        error.style.display = "block";
+        return;
+      }
+
+      if (buy <= 0 || sell < 0 || buyFee < 0 || sellFee < 0) {
+        error.textContent = "مبلغ خرید باید بیشتر از صفر باشد و بقیه مبلغ‌ها نمی‌توانند منفی باشند.";
+        error.style.display = "block";
+        return;
+      }
+
+      const totalFees = buyFee + sellFee;
+      const net = sell - buy - totalFees;
+      const percent = (net / buy) * 100;
+
+      let statusText;
+      let statusClass;
+
+      if (net > 0) {
+        statusText = "سود خالص: " + money(net);
+        statusClass = "profit";
+      } else if (net < 0) {
+        statusText = "زیان خالص: " + money(Math.abs(net));
+        statusClass = "loss";
+      } else {
+        statusText = "بدون سود یا زیان";
+        statusClass = "neutral";
+      }
+
+      const status = document.getElementById("status");
+      status.textContent = statusText;
+      status.className = "big-number " + statusClass;
+
+      document.getElementById("buyOutput").textContent = money(buy);
+      document.getElementById("sellOutput").textContent = money(sell);
+      document.getElementById("feeOutput").textContent = money(totalFees);
+      document.getElementById("netOutput").textContent =
+        (net > 0 ? "+" : net < 0 ? "-" : "") + money(Math.abs(net));
+
+      document.getElementById("percentOutput").textContent =
+        (percent > 0 ? "+" : "") + percent.toFixed(2) + "%";
+
+      result.style.display = "block";
+    }
+  </script>
+</body>
+</html>
