@@ -1,4 +1,4 @@
-
+ش
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
@@ -128,6 +128,46 @@ input:focus, select:focus {
   .grid { grid-template-columns: 1fr; }
   h1 { font-size: 21px; }
 }
+
+.market-box {
+  margin: 22px 0;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.market-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.market-header h2 { margin: 0; font-size: 18px; }
+.market-status { color: var(--muted); font-size: 12px; }
+.market-table-wrap { overflow-x: auto; }
+.market-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.market-table th, .market-table td {
+  padding: 10px 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.market-table th { color: var(--muted); font-weight: bold; }
+.market-table td:last-child, .market-table th:last-child { text-align: right; }
+.market-refresh {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: #273750;
+  color: var(--text);
+  cursor: pointer;
+}
+html[dir="rtl"] .market-table th,
+html[dir="rtl"] .market-table td { text-align: right; }
+html[dir="rtl"] .market-table td:last-child,
+html[dir="rtl"] .market-table th:last-child { text-align: left; }
+
 </style>
 </head>
 <body>
@@ -143,6 +183,30 @@ input:focus, select:focus {
       فارسی
     </button>
   </header>
+
+
+  <section class="market-box" aria-live="polite">
+    <div class="market-header">
+      <h2 data-i18n="marketTitle">Live Crypto Prices (USD)</h2>
+      <button class="market-refresh" id="refreshPrices" type="button" data-i18n="refresh">Refresh prices</button>
+    </div>
+    <p class="market-status" id="marketStatus" data-i18n="loadingPrices">Loading prices…</p>
+    <div class="market-table-wrap">
+      <table class="market-table">
+        <thead>
+          <tr>
+            <th data-i18n="coinColumn">Coin</th>
+            <th data-i18n="symbolColumn">Symbol</th>
+            <th data-i18n="priceColumn">Price (USD)</th>
+          </tr>
+        </thead>
+        <tbody id="marketPrices">
+          <tr><td colspan="3">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note" data-i18n="marketNote">Prices are provided by CoinGecko and may be delayed or temporarily unavailable. This list shows selected popular coins, not every cryptocurrency.</p>
+  </section>
 
   <form id="calculator">
     <div class="grid">
@@ -253,7 +317,16 @@ const translations = {
     returnResult: "Net return",
     note: "This calculator does not include taxes, slippage, or other exchange charges. Results are estimates.",
     invalid: "Please enter valid amounts and non-negative fees.",
-    language: "فارسی"
+    language: "فارسی",
+    marketTitle: "Live Crypto Prices (USD)",
+    refresh: "Refresh prices",
+    loadingPrices: "Loading prices…",
+    coinColumn: "Coin",
+    symbolColumn: "Symbol",
+    priceColumn: "Price (USD)",
+    marketNote: "Prices are provided by CoinGecko and may be delayed or temporarily unavailable. This list shows selected popular coins, not every cryptocurrency.",
+    priceError: "Could not load prices. Please try again in a moment.",
+    updated: "Last updated"
   },
   fa: {
     title: "ماشین‌حساب سود و زیان ارز دیجیتال",
@@ -275,11 +348,80 @@ const translations = {
     returnResult: "درصد بازده خالص",
     note: "این ماشین‌حساب مالیات، لغزش قیمت یا سایر هزینه‌های صرافی را محاسبه نمی‌کند. نتایج تقریبی هستند.",
     invalid: "لطفاً مبالغ معتبر و کارمزدهای صفر یا بیشتر وارد کنید.",
-    language: "English"
+    language: "English",
+    marketTitle: "قیمت زنده ارزهای دیجیتال (دلار)",
+    refresh: "به‌روزرسانی قیمت‌ها",
+    loadingPrices: "در حال دریافت قیمت‌ها…",
+    coinColumn: "ارز",
+    symbolColumn: "نماد",
+    priceColumn: "قیمت (دلار)",
+    marketNote: "قیمت‌ها از CoinGecko دریافت می‌شوند و ممکن است با تأخیر همراه باشند یا موقتاً در دسترس نباشند. این فهرست شامل تعدادی از ارزهای محبوب است، نه همه ارزهای دیجیتال.",
+    priceError: "دریافت قیمت‌ها ناموفق بود. کمی بعد دوباره تلاش کنید.",
+    updated: "آخرین به‌روزرسانی"
   }
 };
 
 let currentLanguage = "en";
+
+const marketCoins = [
+  ["bitcoin", "Bitcoin", "BTC"],
+  ["ethereum", "Ethereum", "ETH"],
+  ["tether", "Tether", "USDT"],
+  ["binancecoin", "BNB", "BNB"],
+  ["solana", "Solana", "SOL"],
+  ["ripple", "XRP", "XRP"],
+  ["usd-coin", "USDC", "USDC"],
+  ["dogecoin", "Dogecoin", "DOGE"],
+  ["tron", "TRON", "TRX"],
+  ["the-open-network", "Toncoin", "TON"],
+  ["cardano", "Cardano", "ADA"],
+  ["avalanche-2", "Avalanche", "AVAX"],
+  ["shiba-inu", "Shiba Inu", "SHIB"],
+  ["chainlink", "Chainlink", "LINK"],
+  ["bitcoin-cash", "Bitcoin Cash", "BCH"],
+  ["polkadot", "Polkadot", "DOT"],
+  ["litecoin", "Litecoin", "LTC"],
+  ["uniswap", "Uniswap", "UNI"],
+  ["stellar", "Stellar", "XLM"],
+  ["near", "NEAR Protocol", "NEAR"]
+];
+
+function formatPrice(value) {
+  if (!Number.isFinite(value)) return "—";
+  return new Intl.NumberFormat(
+    currentLanguage === "fa" ? "fa-IR" : "en-US",
+    { style: "currency", currency: "USD", maximumFractionDigits: value < 1 ? 6 : 2 }
+  ).format(value);
+}
+
+async function loadMarketPrices() {
+  const status = document.getElementById("marketStatus");
+  const tbody = document.getElementById("marketPrices");
+  status.textContent = translations[currentLanguage].loadingPrices;
+  const ids = marketCoins.map(coin => coin[0]).join(",");
+  const url = "https://api.coingecko.com/api/v3/simple/price?ids=" +
+    encodeURIComponent(ids) + "&vs_currencies=usd";
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("HTTP " + response.status);
+    const data = await response.json();
+    const rows = marketCoins.map(([id, name, symbol]) => {
+      const price = data[id] && data[id].usd;
+      const safeName = name.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      return `<tr><td>${safeName}</td><td>${symbol}</td><td>${formatPrice(Number(price))}</td></tr>`;
+    }).join("");
+    tbody.innerHTML = rows;
+    const now = new Date().toLocaleTimeString(currentLanguage === "fa" ? "fa-IR" : "en-US");
+    status.textContent = translations[currentLanguage].updated + ": " + now;
+  } catch (error) {
+    status.textContent = translations[currentLanguage].priceError;
+    tbody.innerHTML = `<tr><td colspan="3">${translations[currentLanguage].priceError}</td></tr>`;
+  }
+}
+
+document.getElementById("refreshPrices").addEventListener("click", loadMarketPrices);
+setInterval(loadMarketPrices, 60000);
+
 
 function setLanguage(language) {
   currentLanguage = language;
@@ -297,6 +439,8 @@ function setLanguage(language) {
     translations[language].language;
 
   calculate();
+  const status = document.getElementById("marketStatus");
+  if (status && status.textContent) loadMarketPrices();
 }
 
 document.getElementById("languageButton").addEventListener("click", () => {
@@ -385,6 +529,7 @@ document.getElementById("calculator").addEventListener("submit", event => {
   });
 
 setLanguage("en");
+loadMarketPrices();
 </script>
 </body>
 </html>
