@@ -13,61 +13,75 @@
 
     body {
       margin: 0;
-      padding: 24px 14px;
+      padding: 20px 12px;
       font-family: Tahoma, Arial, sans-serif;
       background: #f1f5f9;
       color: #172033;
     }
 
     .container {
-      max-width: 520px;
+      max-width: 540px;
       margin: 20px auto;
-      padding: 26px;
+      padding: 24px;
       background: white;
       border-radius: 18px;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
     }
 
     h1 {
-      font-size: 25px;
       text-align: center;
-      margin-top: 0;
+      font-size: 25px;
       color: #174ea6;
+      margin-top: 0;
     }
 
     .intro {
       text-align: center;
-      line-height: 1.9;
       color: #64748b;
+      line-height: 1.9;
       font-size: 14px;
+    }
+
+    .field {
+      margin-top: 18px;
     }
 
     label {
       display: block;
-      margin-top: 18px;
       margin-bottom: 8px;
       font-weight: bold;
     }
 
-    input {
+    input, select {
       width: 100%;
-      padding: 13px;
+      padding: 12px;
       border: 1px solid #cbd5e1;
       border-radius: 9px;
       font-size: 16px;
+      font-family: inherit;
+    }
+
+    input {
       direction: ltr;
       text-align: left;
     }
 
-    input:focus {
+    input:focus, select:focus {
       outline: 2px solid #93c5fd;
       border-color: #2563eb;
     }
 
+    .fee-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
     .hint {
-      margin-top: 5px;
+      margin-top: 6px;
       color: #64748b;
       font-size: 12px;
+      line-height: 1.8;
     }
 
     button {
@@ -91,43 +105,37 @@
     .result {
       display: none;
       margin-top: 24px;
-      padding: 20px;
+      padding: 18px;
       background: #f8fafc;
       border: 1px solid #e2e8f0;
       border-radius: 12px;
     }
 
     .result h2 {
-      margin-top: 0;
       font-size: 19px;
+      margin-top: 0;
     }
 
     .big-number {
-      font-size: 30px;
+      font-size: 25px;
       font-weight: bold;
       direction: ltr;
       text-align: center;
       overflow-wrap: anywhere;
+      margin: 18px 0;
     }
 
-    .profit {
-      color: #15803d;
-    }
-
-    .loss {
-      color: #dc2626;
-    }
-
-    .neutral {
-      color: #475569;
-    }
+    .profit { color: #15803d; }
+    .loss { color: #dc2626; }
+    .neutral { color: #475569; }
 
     .row {
       display: flex;
       justify-content: space-between;
       gap: 12px;
-      padding: 10px 0;
+      padding: 11px 0;
       border-bottom: 1px solid #e2e8f0;
+      line-height: 1.6;
     }
 
     .row:last-child {
@@ -138,24 +146,31 @@
       direction: ltr;
       text-align: left;
       font-weight: bold;
+      overflow-wrap: anywhere;
     }
 
     .error {
       display: none;
       margin-top: 15px;
-      color: #b91c1c;
-      background: #fef2f2;
       padding: 12px;
       border-radius: 8px;
+      background: #fef2f2;
+      color: #b91c1c;
       line-height: 1.8;
     }
 
     footer {
-      margin-top: 24px;
+      margin-top: 22px;
       text-align: center;
       font-size: 12px;
       color: #64748b;
       line-height: 1.9;
+    }
+
+    @media (max-width: 400px) {
+      .container { padding: 17px; }
+      .fee-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 22px; }
     }
   </style>
 </head>
@@ -165,31 +180,63 @@
     <h1>ماشین‌حساب سود و زیان رمزارز</h1>
 
     <p class="intro">
-      مبلغ خرید و فروش و کارمزدها را وارد کن
-      تا سود یا زیان خالصت محاسبه شود.
+      مبلغ خرید و فروش و کارمزدها را وارد کن.
+      سود خالص و درصد سود یا زیان به‌صورت خودکار محاسبه می‌شوند.
     </p>
 
-    <label for="buy">مبلغ خرید (دلار)</label>
-    <input id="buy" type="number" min="0" step="any"
-           placeholder="مثلاً 200">
+    <div class="field">
+      <label for="buy">مبلغ خرید (دلار)</label>
+      <input id="buy" type="number" min="0.01" step="any"
+             placeholder="مثلاً 200">
+    </div>
 
-    <label for="sell">مبلغ فروش (دلار)</label>
-    <input id="sell" type="number" min="0" step="any"
-           placeholder="مثلاً 250">
+    <div class="field">
+      <label for="sell">مبلغ فروش (دلار)</label>
+      <input id="sell" type="number" min="0" step="any"
+             placeholder="مثلاً 250">
+    </div>
 
-    <label for="buyFee">کارمزد خرید (دلار)</label>
-    <input id="buyFee" type="number" min="0" step="any"
-           value="0">
+    <div class="field">
+      <label>کارمزد خرید</label>
+      <div class="fee-grid">
+        <div>
+          <select id="buyMode" aria-label="نوع کارمزد خرید">
+            <option value="percent">درصدی (%)</option>
+            <option value="fixed">مبلغ ثابت ($)</option>
+          </select>
+        </div>
+        <div>
+          <input id="buyFee" type="number" min="0" step="any"
+                 value="0.1" aria-label="مقدار کارمزد خرید">
+        </div>
+      </div>
+      <p class="hint" id="buyHint">
+        مثلاً 0.1 یعنی کارمزد خرید ۰٫۱ درصد است.
+      </p>
+    </div>
 
-    <label for="sellFee">کارمزد فروش (دلار)</label>
-    <input id="sellFee" type="number" min="0" step="any"
-           value="0">
+    <div class="field">
+      <label>کارمزد فروش</label>
+      <div class="fee-grid">
+        <div>
+          <select id="sellMode" aria-label="نوع کارمزد فروش">
+            <option value="percent">درصدی (%)</option>
+            <option value="fixed">مبلغ ثابت ($)</option>
+          </select>
+        </div>
+        <div>
+          <input id="sellFee" type="number" min="0" step="any"
+                 value="0.1" aria-label="مقدار کارمزد فروش">
+        </div>
+      </div>
+      <p class="hint" id="sellHint">
+        مثلاً 0.1 یعنی کارمزد فروش ۰٫۱ درصد است.
+      </p>
+    </div>
 
-    <p class="hint">
-      اگر کارمزد را به درصد می‌دانی، ابتدا آن را به مبلغ دلار تبدیل کن.
-    </p>
-
-    <button onclick="calculate()">محاسبه سود و زیان</button>
+    <button id="calculateButton" type="button">
+      محاسبه سود و زیان
+    </button>
 
     <div id="error" class="error" role="alert"></div>
 
@@ -209,8 +256,18 @@
       </div>
 
       <div class="row">
-        <span>مجموع کارمزد</span>
-        <span id="feeOutput"></span>
+        <span>کارمزد خرید</span>
+        <span id="buyFeeOutput"></span>
+      </div>
+
+      <div class="row">
+        <span>کارمزد فروش</span>
+        <span id="sellFeeOutput"></span>
+      </div>
+
+      <div class="row">
+        <span>مجموع کارمزدها</span>
+        <span id="totalFeeOutput"></span>
       </div>
 
       <div class="row">
@@ -225,61 +282,93 @@
     </section>
 
     <footer>
-      این ابزار آموزشی است و قیمت زنده رمزارزها را نمایش نمی‌دهد.
-      نتیجه تقریبی است و هزینه‌های دیگری ممکن است وجود داشته باشند.
+      ابزار آموزشی است؛ قیمت زنده نمایش داده نمی‌شود.
+      محاسبه بر اساس مبالغ واردشده انجام می‌شود و هزینه‌های دیگر
+      ممکن است در نتیجه واقعی تأثیر بگذارند.
     </footer>
   </main>
 
   <script>
-    function money(number) {
-      return number.toLocaleString("en-US", {
+    const $ = id => document.getElementById(id);
+
+    function money(value) {
+      return value.toLocaleString("en-US", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }) + " USD";
     }
 
+    function updateFeeHint(side) {
+      const mode = $(side + "Mode").value;
+      const hint = $(side + "Hint");
+
+      if (mode === "percent") {
+        hint.textContent =
+          "عدد را به درصد وارد کن؛ مثلاً 0.1 یعنی ۰٫۱ درصد.";
+        $(side + "Fee").placeholder = "مثلاً 0.1";
+      } else {
+        hint.textContent =
+          "مبلغ ثابت کارمزد را به دلار وارد کن؛ مثلاً 2.";
+        $(side + "Fee").placeholder = "مثلاً 2";
+      }
+    }
+
+    function showError(message) {
+      $("error").textContent = message;
+      $("error").style.display = "block";
+      $("result").style.display = "none";
+    }
+
     function calculate() {
-      const buy = Number(document.getElementById("buy").value);
-      const sell = Number(document.getElementById("sell").value);
-      const buyFee = Number(document.getElementById("buyFee").value);
-      const sellFee = Number(document.getElementById("sellFee").value);
+      $("error").style.display = "none";
+      $("result").style.display = "none";
 
-      const error = document.getElementById("error");
-      const result = document.getElementById("result");
+      const buy = Number($("buy").value);
+      const sell = Number($("sell").value);
+      const buyFeeValue = Number($("buyFee").value);
+      const sellFeeValue = Number($("sellFee").value);
 
-      error.style.display = "none";
-      result.style.display = "none";
+      const fields = ["buy", "sell", "buyFee", "sellFee"];
 
-      const fields = [
-        document.getElementById("buy"),
-        document.getElementById("sell"),
-        document.getElementById("buyFee"),
-        document.getElementById("sellFee")
-      ];
-
-      for (const field of fields) {
-        if (field.value.trim() === "") {
-          error.textContent = "لطفاً همه مبلغ‌ها را وارد کن. اگر کارمزد نداری، صفر بنویس.";
-          error.style.display = "block";
+      for (const id of fields) {
+        if ($(id).value.trim() === "") {
+          showError("لطفاً همه فیلدها را پر کن.");
           return;
         }
       }
 
-      if (![buy, sell, buyFee, sellFee].every(Number.isFinite)) {
-        error.textContent = "لطفاً فقط عدد معتبر وارد کن.";
-        error.style.display = "block";
+      if (![buy, sell, buyFeeValue, sellFeeValue].every(Number.isFinite)) {
+        showError("لطفاً عدد معتبر وارد کن.");
         return;
       }
 
-      if (buy <= 0 || sell < 0 || buyFee < 0 || sellFee < 0) {
-        error.textContent = "مبلغ خرید باید بیشتر از صفر باشد و بقیه مبلغ‌ها نمی‌توانند منفی باشند.";
-        error.style.display = "block";
+      if (buy <= 0 || sell < 0 ||
+          buyFeeValue < 0 || sellFeeValue < 0) {
+        showError("مبلغ خرید باید بیشتر از صفر باشد و بقیه مقادیر منفی نباشند.");
         return;
       }
+
+      if ($("buyMode").value === "percent" && buyFeeValue > 100) {
+        showError("درصد کارمزد خرید باید بین صفر تا ۱۰۰ باشد.");
+        return;
+      }
+
+      if ($("sellMode").value === "percent" && sellFeeValue > 100) {
+        showError("درصد کارمزد فروش باید بین صفر تا ۱۰۰ باشد.");
+        return;
+      }
+
+      const buyFee = $("buyMode").value === "percent"
+        ? buy * buyFeeValue / 100
+        : buyFeeValue;
+
+      const sellFee = $("sellMode").value === "percent"
+        ? sell * sellFeeValue / 100
+        : sellFeeValue;
 
       const totalFees = buyFee + sellFee;
       const net = sell - buy - totalFees;
-      const percent = (net / buy) * 100;
+      const percent = net / buy * 100;
 
       let statusText;
       let statusClass;
@@ -295,21 +384,31 @@
         statusClass = "neutral";
       }
 
-      const status = document.getElementById("status");
-      status.textContent = statusText;
-      status.className = "big-number " + statusClass;
+      $("status").textContent = statusText;
+      $("status").className = "big-number " + statusClass;
 
-      document.getElementById("buyOutput").textContent = money(buy);
-      document.getElementById("sellOutput").textContent = money(sell);
-      document.getElementById("feeOutput").textContent = money(totalFees);
-      document.getElementById("netOutput").textContent =
-        (net > 0 ? "+" : net < 0 ? "-" : "") + money(Math.abs(net));
+      $("buyOutput").textContent = money(buy);
+      $("sellOutput").textContent = money(sell);
+      $("buyFeeOutput").textContent = money(buyFee);
+      $("sellFeeOutput").textContent = money(sellFee);
+      $("totalFeeOutput").textContent = money(totalFees);
 
-      document.getElementById("percentOutput").textContent =
+      $("netOutput").textContent =
+        (net > 0 ? "+" : net < 0 ? "-" : "") +
+        money(Math.abs(net));
+
+      $("percentOutput").textContent =
         (percent > 0 ? "+" : "") + percent.toFixed(2) + "%";
 
-      result.style.display = "block";
+      $("result").style.display = "block";
     }
+
+    $("buyMode").addEventListener("change", () => updateFeeHint("buy"));
+    $("sellMode").addEventListener("change", () => updateFeeHint("sell"));
+    $("calculateButton").addEventListener("click", calculate);
+
+    updateFeeHint("buy");
+    updateFeeHint("sell");
   </script>
 </body>
 </html>
