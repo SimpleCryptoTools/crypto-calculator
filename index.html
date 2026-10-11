@@ -1,414 +1,390 @@
 
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ماشین‌حساب سود و زیان رمزارز</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      padding: 20px 12px;
-      font-family: Tahoma, Arial, sans-serif;
-      background: #f1f5f9;
-      color: #172033;
-    }
-
-    .container {
-      max-width: 540px;
-      margin: 20px auto;
-      padding: 24px;
-      background: white;
-      border-radius: 18px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 25px;
-      color: #174ea6;
-      margin-top: 0;
-    }
-
-    .intro {
-      text-align: center;
-      color: #64748b;
-      line-height: 1.9;
-      font-size: 14px;
-    }
-
-    .field {
-      margin-top: 18px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #cbd5e1;
-      border-radius: 9px;
-      font-size: 16px;
-      font-family: inherit;
-    }
-
-    input {
-      direction: ltr;
-      text-align: left;
-    }
-
-    input:focus, select:focus {
-      outline: 2px solid #93c5fd;
-      border-color: #2563eb;
-    }
-
-    .fee-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .hint {
-      margin-top: 6px;
-      color: #64748b;
-      font-size: 12px;
-      line-height: 1.8;
-    }
-
-    button {
-      width: 100%;
-      margin-top: 24px;
-      padding: 14px;
-      border: none;
-      border-radius: 10px;
-      background: #2563eb;
-      color: white;
-      font-size: 17px;
-      font-family: inherit;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #1d4ed8;
-    }
-
-    .result {
-      display: none;
-      margin-top: 24px;
-      padding: 18px;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-    }
-
-    .result h2 {
-      font-size: 19px;
-      margin-top: 0;
-    }
-
-    .big-number {
-      font-size: 25px;
-      font-weight: bold;
-      direction: ltr;
-      text-align: center;
-      overflow-wrap: anywhere;
-      margin: 18px 0;
-    }
-
-    .profit { color: #15803d; }
-    .loss { color: #dc2626; }
-    .neutral { color: #475569; }
-
-    .row {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 11px 0;
-      border-bottom: 1px solid #e2e8f0;
-      line-height: 1.6;
-    }
-
-    .row:last-child {
-      border-bottom: none;
-    }
-
-    .row span:last-child {
-      direction: ltr;
-      text-align: left;
-      font-weight: bold;
-      overflow-wrap: anywhere;
-    }
-
-    .error {
-      display: none;
-      margin-top: 15px;
-      padding: 12px;
-      border-radius: 8px;
-      background: #fef2f2;
-      color: #b91c1c;
-      line-height: 1.8;
-    }
-
-    footer {
-      margin-top: 22px;
-      text-align: center;
-      font-size: 12px;
-      color: #64748b;
-      line-height: 1.9;
-    }
-
-    @media (max-width: 400px) {
-      .container { padding: 17px; }
-      .fee-grid { grid-template-columns: 1fr; }
-      h1 { font-size: 22px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crypto Profit & Loss Calculator</title>
+<style>
+:root {
+  --bg: #0b1220;
+  --panel: #151f32;
+  --text: #eef4ff;
+  --muted: #aab8ce;
+  --accent: #27c4d9;
+  --border: #30415b;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 20px 12px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Tahoma, sans-serif;
+}
+.container {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 24px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 12px 36px #0004;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+h1 { font-size: 25px; margin: 0; }
+.subtitle { color: var(--muted); line-height: 1.7; }
+button, input, select { font: inherit; }
+.lang-button, .calculate {
+  border: 0;
+  border-radius: 9px;
+  padding: 11px 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.lang-button {
+  color: var(--text);
+  background: #273750;
+  border: 1px solid var(--border);
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.field { min-width: 0; }
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: bold;
+}
+input, select {
+  width: 100%;
+  padding: 12px;
+  color: var(--text);
+  background: #0c1525;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+}
+input:focus, select:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.section-title {
+  margin: 25px 0 14px;
+  font-size: 18px;
+}
+.fee-box {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-top: 14px;
+}
+.fee-box h3 { margin: 0 0 14px; font-size: 16px; }
+.calculate {
+  width: 100%;
+  margin-top: 22px;
+  background: var(--accent);
+  color: #06121c;
+  font-size: 16px;
+}
+.results {
+  margin-top: 22px;
+  padding: 18px;
+  border-radius: 12px;
+  background: #0c1525;
+  border: 1px solid var(--border);
+}
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--border);
+}
+.result-row:last-child { border-bottom: 0; }
+.result-row span:first-child { color: var(--muted); }
+.result-value { font-weight: bold; text-align: end; overflow-wrap: anywhere; }
+.profit { color: #4ade80; }
+.loss { color: #fb7185; }
+.note {
+  margin-top: 18px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.error { color: #fb7185; margin-top: 12px; }
+[hidden] { display: none !important; }
+@media (max-width: 480px) {
+  .container { padding: 17px; }
+  .grid { grid-template-columns: 1fr; }
+  h1 { font-size: 21px; }
+}
+</style>
 </head>
-
 <body>
-  <main class="container">
-    <h1>ماشین‌حساب سود و زیان رمزارز</h1>
-
-    <p class="intro">
-      مبلغ خرید و فروش و کارمزدها را وارد کن.
-      سود خالص و درصد سود یا زیان به‌صورت خودکار محاسبه می‌شوند.
-    </p>
-
-    <div class="field">
-      <label for="buy">مبلغ خرید (دلار)</label>
-      <input id="buy" type="number" min="0.01" step="any"
-             placeholder="مثلاً 200">
-    </div>
-
-    <div class="field">
-      <label for="sell">مبلغ فروش (دلار)</label>
-      <input id="sell" type="number" min="0" step="any"
-             placeholder="مثلاً 250">
-    </div>
-
-    <div class="field">
-      <label>کارمزد خرید</label>
-      <div class="fee-grid">
-        <div>
-          <select id="buyMode" aria-label="نوع کارمزد خرید">
-            <option value="percent">درصدی (%)</option>
-            <option value="fixed">مبلغ ثابت ($)</option>
-          </select>
-        </div>
-        <div>
-          <input id="buyFee" type="number" min="0" step="any"
-                 value="0.1" aria-label="مقدار کارمزد خرید">
-        </div>
+<main class="container">
+  <header class="header">
+    <div>
+      <h1 data-i18n="title">Crypto Profit & Loss Calculator</h1>
+      <div class="subtitle" data-i18n="subtitle">
+        Calculate your net profit after trading fees.
       </div>
-      <p class="hint" id="buyHint">
-        مثلاً 0.1 یعنی کارمزد خرید ۰٫۱ درصد است.
-      </p>
     </div>
-
-    <div class="field">
-      <label>کارمزد فروش</label>
-      <div class="fee-grid">
-        <div>
-          <select id="sellMode" aria-label="نوع کارمزد فروش">
-            <option value="percent">درصدی (%)</option>
-            <option value="fixed">مبلغ ثابت ($)</option>
-          </select>
-        </div>
-        <div>
-          <input id="sellFee" type="number" min="0" step="any"
-                 value="0.1" aria-label="مقدار کارمزد فروش">
-        </div>
-      </div>
-      <p class="hint" id="sellHint">
-        مثلاً 0.1 یعنی کارمزد فروش ۰٫۱ درصد است.
-      </p>
-    </div>
-
-    <button id="calculateButton" type="button">
-      محاسبه سود و زیان
+    <button class="lang-button" id="languageButton" type="button">
+      فارسی
     </button>
+  </header>
 
-    <div id="error" class="error" role="alert"></div>
-
-    <section id="result" class="result" aria-live="polite">
-      <h2>نتیجه محاسبه</h2>
-
-      <div id="status" class="big-number"></div>
-
-      <div class="row">
-        <span>مبلغ خرید</span>
-        <span id="buyOutput"></span>
+  <form id="calculator">
+    <div class="grid">
+      <div class="field">
+        <label for="buy" data-i18n="buy">Buy amount (USD)</label>
+        <input id="buy" type="number" min="0" step="any"
+          placeholder="200" required>
       </div>
-
-      <div class="row">
-        <span>مبلغ فروش</span>
-        <span id="sellOutput"></span>
+      <div class="field">
+        <label for="sell" data-i18n="sell">Sell amount (USD)</label>
+        <input id="sell" type="number" min="0" step="any"
+          placeholder="250" required>
       </div>
+    </div>
 
-      <div class="row">
-        <span>کارمزد خرید</span>
-        <span id="buyFeeOutput"></span>
+    <h2 class="section-title" data-i18n="feesTitle">Trading fees</h2>
+
+    <div class="fee-box">
+      <h3 data-i18n="buyFeeTitle">Buy fee</h3>
+      <div class="grid">
+        <div class="field">
+          <label for="buyMode" data-i18n="feeType">Fee type</label>
+          <select id="buyMode">
+            <option value="percent" data-i18n="percent">Percentage (%)</option>
+            <option value="fixed" data-i18n="fixed">Fixed amount (USD)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="buyFeeRate" data-i18n="feeValue">Fee value</label>
+          <input id="buyFeeRate" type="number" min="0" step="any"
+            value="0.1" required>
+        </div>
       </div>
+    </div>
 
-      <div class="row">
-        <span>کارمزد فروش</span>
-        <span id="sellFeeOutput"></span>
+    <div class="fee-box">
+      <h3 data-i18n="sellFeeTitle">Sell fee</h3>
+      <div class="grid">
+        <div class="field">
+          <label for="sellMode" data-i18n="feeType">Fee type</label>
+          <select id="sellMode">
+            <option value="percent" data-i18n="percent">Percentage (%)</option>
+            <option value="fixed" data-i18n="fixed">Fixed amount (USD)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="sellFeeRate" data-i18n="feeValue">Fee value</label>
+          <input id="sellFeeRate" type="number" min="0" step="any"
+            value="0.1" required>
+        </div>
       </div>
+    </div>
 
-      <div class="row">
-        <span>مجموع کارمزدها</span>
-        <span id="totalFeeOutput"></span>
-      </div>
+    <button class="calculate" type="submit" data-i18n="calculate">
+      Calculate profit & loss
+    </button>
+    <p id="error" class="error" role="alert" hidden></p>
+  </form>
 
-      <div class="row">
-        <span>سود یا زیان خالص</span>
-        <span id="netOutput"></span>
-      </div>
+  <section class="results" id="results" aria-live="polite" hidden>
+    <div class="result-row">
+      <span data-i18n="buyFeeResult">Buy fee</span>
+      <span class="result-value" id="buyFeeResult">$0.00</span>
+    </div>
+    <div class="result-row">
+      <span data-i18n="sellFeeResult">Sell fee</span>
+      <span class="result-value" id="sellFeeResult">$0.00</span>
+    </div>
+    <div class="result-row">
+      <span data-i18n="totalFees">Total fees</span>
+      <span class="result-value" id="totalFees">$0.00</span>
+    </div>
+    <div class="result-row">
+      <span data-i18n="netResult">Net profit / loss</span>
+      <span class="result-value" id="netResult">$0.00</span>
+    </div>
+    <div class="result-row">
+      <span data-i18n="returnResult">Net return</span>
+      <span class="result-value" id="returnResult">0.00%</span>
+    </div>
+  </section>
 
-      <div class="row">
-        <span>درصد سود یا زیان</span>
-        <span id="percentOutput"></span>
-      </div>
-    </section>
+  <p class="note" data-i18n="note">
+    This calculator does not include taxes, slippage, or other exchange
+    charges. Results are estimates.
+  </p>
+</main>
 
-    <footer>
-      ابزار آموزشی است؛ قیمت زنده نمایش داده نمی‌شود.
-      محاسبه بر اساس مبالغ واردشده انجام می‌شود و هزینه‌های دیگر
-      ممکن است در نتیجه واقعی تأثیر بگذارند.
-    </footer>
-  </main>
+<script>
+const translations = {
+  en: {
+    title: "Crypto Profit & Loss Calculator",
+    subtitle: "Calculate your net profit after trading fees.",
+    buy: "Buy amount (USD)",
+    sell: "Sell amount (USD)",
+    feesTitle: "Trading fees",
+    buyFeeTitle: "Buy fee",
+    sellFeeTitle: "Sell fee",
+    feeType: "Fee type",
+    percent: "Percentage (%)",
+    fixed: "Fixed amount (USD)",
+    feeValue: "Fee value",
+    calculate: "Calculate profit & loss",
+    buyFeeResult: "Buy fee",
+    sellFeeResult: "Sell fee",
+    totalFees: "Total fees",
+    netResult: "Net profit / loss",
+    returnResult: "Net return",
+    note: "This calculator does not include taxes, slippage, or other exchange charges. Results are estimates.",
+    invalid: "Please enter valid amounts and non-negative fees.",
+    language: "فارسی"
+  },
+  fa: {
+    title: "ماشین‌حساب سود و زیان ارز دیجیتال",
+    subtitle: "سود خالص خود را پس از کسر کارمزدها محاسبه کنید.",
+    buy: "مبلغ خرید (دلار)",
+    sell: "مبلغ فروش (دلار)",
+    feesTitle: "کارمزد معاملات",
+    buyFeeTitle: "کارمزد خرید",
+    sellFeeTitle: "کارمزد فروش",
+    feeType: "نوع کارمزد",
+    percent: "درصدی (%)",
+    fixed: "مبلغ ثابت (دلار)",
+    feeValue: "مقدار کارمزد",
+    calculate: "محاسبه سود و زیان",
+    buyFeeResult: "کارمزد خرید",
+    sellFeeResult: "کارمزد فروش",
+    totalFees: "مجموع کارمزدها",
+    netResult: "سود / زیان خالص",
+    returnResult: "درصد بازده خالص",
+    note: "این ماشین‌حساب مالیات، لغزش قیمت یا سایر هزینه‌های صرافی را محاسبه نمی‌کند. نتایج تقریبی هستند.",
+    invalid: "لطفاً مبالغ معتبر و کارمزدهای صفر یا بیشتر وارد کنید.",
+    language: "English"
+  }
+};
 
-  <script>
-    const $ = id => document.getElementById(id);
+let currentLanguage = "en";
 
-    function money(value) {
-      return value.toLocaleString("en-US", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      }) + " USD";
+function setLanguage(language) {
+  currentLanguage = language;
+  const isPersian = language === "fa";
+  document.documentElement.lang = language;
+  document.documentElement.dir = isPersian ? "rtl" : "ltr";
+  document.title = translations[language].title;
+
+  document.querySelectorAll("[data-i18n]").forEach(element => {
+    const key = element.dataset.i18n;
+    element.textContent = translations[language][key];
+  });
+
+  document.getElementById("languageButton").textContent =
+    translations[language].language;
+
+  calculate();
+}
+
+document.getElementById("languageButton").addEventListener("click", () => {
+  setLanguage(currentLanguage === "en" ? "fa" : "en");
+});
+
+function getFee(amount, mode, rate) {
+  return mode === "percent" ? amount * rate / 100 : rate;
+}
+
+function money(value) {
+  return new Intl.NumberFormat(
+    currentLanguage === "fa" ? "fa-IR" : "en-US",
+    { style: "currency", currency: "USD" }
+  ).format(value);
+}
+
+function calculate() {
+  const buyInput = document.getElementById("buy");
+  const sellInput = document.getElementById("sell");
+  const buy = Number(buyInput.value);
+  const sell = Number(sellInput.value);
+  const buyRate = Number(document.getElementById("buyFeeRate").value);
+  const sellRate = Number(document.getElementById("sellFeeRate").value);
+  const error = document.getElementById("error");
+  const results = document.getElementById("results");
+
+  const valid =
+    buyInput.value !== "" && sellInput.value !== "" &&
+    document.getElementById("buyFeeRate").value !== "" &&
+    document.getElementById("sellFeeRate").value !== "" &&
+    Number.isFinite(buy) && Number.isFinite(sell) &&
+    Number.isFinite(buyRate) && Number.isFinite(sellRate) &&
+    buy > 0 && sell >= 0 && buyRate >= 0 && sellRate >= 0;
+
+  if (!valid) {
+    results.hidden = true;
+    error.hidden = true;
+    if (buyInput.value !== "" || sellInput.value !== "") {
+      error.textContent = translations[currentLanguage].invalid;
+      error.hidden = false;
     }
+    return;
+  }
 
-    function updateFeeHint(side) {
-      const mode = $(side + "Mode").value;
-      const hint = $(side + "Hint");
+  error.hidden = true;
+  const buyFee = getFee(
+    buy, document.getElementById("buyMode").value, buyRate
+  );
+  const sellFee = getFee(
+    sell, document.getElementById("sellMode").value, sellRate
+  );
+  const totalFees = buyFee + sellFee;
+  const net = sell - buy - totalFees;
+  const percentage = net / buy * 100;
 
-      if (mode === "percent") {
-        hint.textContent =
-          "عدد را به درصد وارد کن؛ مثلاً 0.1 یعنی ۰٫۱ درصد.";
-        $(side + "Fee").placeholder = "مثلاً 0.1";
-      } else {
-        hint.textContent =
-          "مبلغ ثابت کارمزد را به دلار وارد کن؛ مثلاً 2.";
-        $(side + "Fee").placeholder = "مثلاً 2";
-      }
-    }
+  document.getElementById("buyFeeResult").textContent = money(buyFee);
+  document.getElementById("sellFeeResult").textContent = money(sellFee);
+  document.getElementById("totalFees").textContent = money(totalFees);
 
-    function showError(message) {
-      $("error").textContent = message;
-      $("error").style.display = "block";
-      $("result").style.display = "none";
-    }
+  const netElement = document.getElementById("netResult");
+  netElement.textContent = money(net);
+  netElement.classList.toggle("profit", net > 0);
+  netElement.classList.toggle("loss", net < 0);
 
-    function calculate() {
-      $("error").style.display = "none";
-      $("result").style.display = "none";
+  const returnElement = document.getElementById("returnResult");
+  returnElement.textContent = percentage.toLocaleString(
+    currentLanguage === "fa" ? "fa-IR" : "en-US",
+    { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+  ) + "%";
+  returnElement.classList.toggle("profit", net > 0);
+  returnElement.classList.toggle("loss", net < 0);
 
-      const buy = Number($("buy").value);
-      const sell = Number($("sell").value);
-      const buyFeeValue = Number($("buyFee").value);
-      const sellFeeValue = Number($("sellFee").value);
+  results.hidden = false;
+}
 
-      const fields = ["buy", "sell", "buyFee", "sellFee"];
+document.getElementById("calculator").addEventListener("submit", event => {
+  event.preventDefault();
+  calculate();
+});
 
-      for (const id of fields) {
-        if ($(id).value.trim() === "") {
-          showError("لطفاً همه فیلدها را پر کن.");
-          return;
-        }
-      }
+["buy", "sell", "buyFeeRate", "sellFeeRate", "buyMode", "sellMode"]
+  .forEach(id => {
+    document.getElementById(id).addEventListener("input", calculate);
+    document.getElementById(id).addEventListener("change", calculate);
+  });
 
-      if (![buy, sell, buyFeeValue, sellFeeValue].every(Number.isFinite)) {
-        showError("لطفاً عدد معتبر وارد کن.");
-        return;
-      }
-
-      if (buy <= 0 || sell < 0 ||
-          buyFeeValue < 0 || sellFeeValue < 0) {
-        showError("مبلغ خرید باید بیشتر از صفر باشد و بقیه مقادیر منفی نباشند.");
-        return;
-      }
-
-      if ($("buyMode").value === "percent" && buyFeeValue > 100) {
-        showError("درصد کارمزد خرید باید بین صفر تا ۱۰۰ باشد.");
-        return;
-      }
-
-      if ($("sellMode").value === "percent" && sellFeeValue > 100) {
-        showError("درصد کارمزد فروش باید بین صفر تا ۱۰۰ باشد.");
-        return;
-      }
-
-      const buyFee = $("buyMode").value === "percent"
-        ? buy * buyFeeValue / 100
-        : buyFeeValue;
-
-      const sellFee = $("sellMode").value === "percent"
-        ? sell * sellFeeValue / 100
-        : sellFeeValue;
-
-      const totalFees = buyFee + sellFee;
-      const net = sell - buy - totalFees;
-      const percent = net / buy * 100;
-
-      let statusText;
-      let statusClass;
-
-      if (net > 0) {
-        statusText = "سود خالص: " + money(net);
-        statusClass = "profit";
-      } else if (net < 0) {
-        statusText = "زیان خالص: " + money(Math.abs(net));
-        statusClass = "loss";
-      } else {
-        statusText = "بدون سود یا زیان";
-        statusClass = "neutral";
-      }
-
-      $("status").textContent = statusText;
-      $("status").className = "big-number " + statusClass;
-
-      $("buyOutput").textContent = money(buy);
-      $("sellOutput").textContent = money(sell);
-      $("buyFeeOutput").textContent = money(buyFee);
-      $("sellFeeOutput").textContent = money(sellFee);
-      $("totalFeeOutput").textContent = money(totalFees);
-
-      $("netOutput").textContent =
-        (net > 0 ? "+" : net < 0 ? "-" : "") +
-        money(Math.abs(net));
-
-      $("percentOutput").textContent =
-        (percent > 0 ? "+" : "") + percent.toFixed(2) + "%";
-
-      $("result").style.display = "block";
-    }
-
-    $("buyMode").addEventListener("change", () => updateFeeHint("buy"));
-    $("sellMode").addEventListener("change", () => updateFeeHint("sell"));
-    $("calculateButton").addEventListener("click", calculate);
-
-    updateFeeHint("buy");
-    updateFeeHint("sell");
-  </script>
+setLanguage("en");
+</script>
 </body>
 </html>
