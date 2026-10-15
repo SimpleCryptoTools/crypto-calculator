@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://simplecryptotools.github.io/crypto-calculator/sitemap.xml
