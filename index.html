@@ -2,8 +2,34 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta name="google-site-verification" content="aiLK_GmJ1FCwoxOcsVbzSWB5PdupIfKCbbrLpnTTz-M" />
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>مدیریت ارز دیجیتال</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Free crypto calculator with live cryptocurrency prices, profit and loss calculations, 7-day charts, portfolio tracking, and price alerts. ابزار رایگان محاسبه سود و زیان و مدیریت ارز دیجیتال.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#071326">
+<link rel="canonical" href="https://simplecryptotools.github.io/crypto-calculator/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Crypto Calculator & Portfolio Tracker | Simple Crypto Tools">
+<meta property="og:description" content="Track live crypto prices, calculate profit and loss, view 7-day charts, manage your portfolio, and set price alerts.">
+<meta property="og:url" content="https://simplecryptotools.github.io/crypto-calculator/">
+<meta property="og:site_name" content="Simple Crypto Tools">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Crypto Calculator & Portfolio Tracker">
+<meta name="twitter:description" content="Free crypto tools for live prices, profit/loss, charts, portfolio tracking, and price alerts.">
+<title>Crypto Calculator &amp; Portfolio Tracker | Simple Crypto Tools</title>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Simple Crypto Tools - Crypto Calculator",
+  "url": "https://simplecryptotools.github.io/crypto-calculator/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "inLanguage": ["fa", "en"],
+  "description": "Free browser-based cryptocurrency tools for live prices, profit and loss calculations, charts, portfolio tracking, and price alerts.",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+}
+</script>
 <style>
 :root{--bg:#071326;--p:#0d1d35;--line:#203d62;--t:#eef5ff;--m:#a8bdd8;--b:#2475ff;--g:#00d39a;--r:#ff6077}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#10284a,#071326 65%);color:var(--t);font:16px Tahoma,Arial,sans-serif;line-height:1.6}.wrap{max-width:1150px;margin:auto;padding:16px}header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}h1{font-size:clamp(22px,4vw,32px);margin:0}h2{font-size:19px;margin:0 0 12px}.muted{color:var(--m);font-size:13px}.panel{background:linear-gradient(145deg,#102440,#0b1a30);border:1px solid var(--line);border-radius:15px;padding:16px;margin:14px 0}.tabs,.row,.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.tabs{background:#0b1b31;padding:8px;border:1px solid var(--line);border-radius:12px;margin-top:16px}.tabs button{flex:1}button{cursor:pointer;background:var(--b);color:white;border:0;border-radius:9px;padding:10px 13px;font-weight:bold}button.secondary{background:#183252;border:1px solid var(--line)}button.green{background:#087f66}button.red{background:#923348}.section{display:none}.section.active{display:block}.prices{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}.coin,.stat{background:#0b1b31;border:1px solid var(--line);border-radius:11px;padding:12px}.coin strong,.stat strong{display:block;font-size:18px}.positive{color:var(--g)}.negative{color:var(--r)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:13px;color:var(--m)}input,select{width:100%;min-width:0;background:#07172c;color:var(--t);border:1px solid var(--line);border-radius:9px;padding:11px;font:inherit}.result{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.big{background:#052d31;border:1px solid #087e67;border-radius:12px;padding:14px}.big strong{display:block;font-size:27px;color:var(--g)}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}td,th{text-align:right;padding:9px;border-bottom:1px solid var(--line)}th{color:var(--m);font-weight:normal}canvas{width:100%;height:280px;background:#09192d;border:1px solid var(--line);border-radius:10px}.notice{background:#102b49;color:var(--m);border-radius:9px;padding:10px;font-size:13px}.footer{text-align:center;color:var(--m);font-size:12px;padding:20px}@media(max-width:700px){.grid{grid-template-columns:1fr}.fields,.result{grid-template-columns:1fr}.wrap{padding:10px}.panel{padding:12px}}
@@ -16,6 +42,13 @@
 <section id="chart" class="section"><div class="panel"><h2 data-fa="نمودار قیمت ۷ روز اخیر" data-en="7-day price chart">نمودار قیمت ۷ روز اخیر</h2><div class="row"><select id="chartCoin"></select><button id="loadChart" data-fa="بارگذاری نمودار" data-en="Load chart">بارگذاری نمودار</button></div><p id="chartStatus" class="muted"></p><canvas id="canvas" width="1000" height="330"></canvas><p class="muted" data-fa="نمودار به اینترنت نیاز دارد و ممکن است به‌دلیل محدودیت سرویس موقتاً در دسترس نباشد." data-en="Chart requires internet and may be temporarily unavailable due to API limits.">نمودار به اینترنت نیاز دارد و ممکن است به‌دلیل محدودیت سرویس موقتاً در دسترس نباشد.</p></div></section>
 <section id="portfolio" class="section"><div class="panel"><h2 data-fa="افزودن دارایی به سبد" data-en="Add asset to portfolio">افزودن دارایی به سبد</h2><div class="fields"><div class="field"><label data-fa="ارز" data-en="Coin">ارز</label><select id="pc"></select></div><div class="field"><label data-fa="مقدار" data-en="Amount">مقدار</label><input id="pa" type="number" min="0" step="any" placeholder="0.5"></div><div class="field"><label data-fa="قیمت خرید هر واحد (USD)" data-en="Buy price per coin (USD)">قیمت خرید هر واحد (USD)</label><input id="pb" type="number" min="0" step="any" placeholder="2500"></div></div><p><button id="add" data-fa="افزودن به سبد" data-en="Add to portfolio">افزودن به سبد</button></p><div class="tablewrap"><table><thead><tr><th data-fa="ارز" data-en="Coin">ارز</th><th data-fa="مقدار" data-en="Amount">مقدار</th><th data-fa="قیمت خرید" data-en="Buy price">قیمت خرید</th><th data-fa="ارزش فعلی" data-en="Current value">ارزش فعلی</th><th data-fa="سود/زیان" data-en="Profit/loss">سود/زیان</th><th data-fa="حذف" data-en="Delete">حذف</th></tr></thead><tbody id="rows"></tbody></table></div><p class="muted" data-fa="اطلاعات روی همین مرورگر ذخیره می‌شوند. پاک کردن داده‌های مرورگر ممکن است آن‌ها را حذف کند." data-en="Data is saved in this browser. Clearing browser data may delete it.">اطلاعات روی همین مرورگر ذخیره می‌شوند. پاک کردن داده‌های مرورگر ممکن است آن‌ها را حذف کند.</p></div></section>
 <section id="alerts" class="section"><div class="panel"><h2 data-fa="ساخت هشدار قیمت" data-en="Create price alert">ساخت هشدار قیمت</h2><div class="fields"><div class="field"><label data-fa="ارز" data-en="Coin">ارز</label><select id="ac"></select></div><div class="field"><label data-fa="قیمت هدف (USD)" data-en="Target price (USD)">قیمت هدف (USD)</label><input id="at" type="number" min="0" step="any" placeholder="70000"></div><div class="field"><label data-fa="شرط" data-en="Condition">شرط</label><select id="cond"><option value="above" data-fa="وقتی قیمت بالاتر برسد" data-en="Price rises above target">وقتی قیمت بالاتر برسد</option><option value="below" data-fa="وقتی قیمت پایین‌تر برسد" data-en="Price falls below target">وقتی قیمت پایین‌تر برسد</option></select></div></div><p><button class="green" id="addAlert" data-fa="افزودن هشدار" data-en="Add alert">افزودن هشدار</button></p><div class="tablewrap"><table><thead><tr><th data-fa="ارز" data-en="Coin">ارز</th><th data-fa="قیمت هدف" data-en="Target">قیمت هدف</th><th data-fa="شرط" data-en="Condition">شرط</th><th data-fa="وضعیت" data-en="Status">وضعیت</th><th data-fa="حذف" data-en="Delete">حذف</th></tr></thead><tbody id="arows"></tbody></table></div><div class="notice" data-fa="مهم: هشدارها فقط وقتی این صفحه باز است بررسی می‌شوند. هشدار هنگام بسته‌بودن سایت به سرویس جداگانه نیاز دارد." data-en="Important: alerts are checked only while this page is open. Alerts while the site is closed need a separate service.">مهم: هشدارها فقط وقتی این صفحه باز است بررسی می‌شوند. هشدار هنگام بسته‌بودن سایت به سرویس جداگانه نیاز دارد.</div></div></section>
+<section class="panel" aria-label="About this crypto calculator">
+<h2 data-fa="درباره ابزارهای ارز دیجیتال" data-en="About these crypto tools">درباره ابزارهای ارز دیجیتال</h2>
+<p data-fa="با این ماشین‌حساب رایگان ارز دیجیتال می‌توانید قیمت‌های بازار را بررسی کنید، سود و زیان احتمالی معامله را با احتساب کارمزد محاسبه کنید، نمودار هفت‌روزه ببینید و دارایی‌ها و هشدارهای قیمت خود را در مرورگر مدیریت کنید. قیمت‌ها ممکن است با تأخیر یا محدودیت سرویس روبه‌رو شوند."
+data-en="Use this free crypto calculator to check market prices, estimate trading profit and loss including fees, view 7-day price charts, and track portfolio holdings and price alerts in your browser. Market data may be delayed or temporarily unavailable.">با این ماشین‌حساب رایگان ارز دیجیتال می‌توانید قیمت‌های بازار را بررسی کنید، سود و زیان احتمالی معامله را با احتساب کارمزد محاسبه کنید، نمودار هفت‌روزه ببینید و دارایی‌ها و هشدارهای قیمت خود را در مرورگر مدیریت کنید. قیمت‌ها ممکن است با تأخیر یا محدودیت سرویس روبه‌رو شوند.</p>
+<p class="muted" data-fa="این ابزار برای اطلاع‌رسانی است و توصیه سرمایه‌گذاری نیست. اطلاعات سبد دارایی در همین مرورگر ذخیره می‌شود."
+data-en="This tool is for information only, not investment advice. Portfolio data is stored in this browser.">این ابزار برای اطلاع‌رسانی است و توصیه سرمایه‌گذاری نیست. اطلاعات سبد دارایی در همین مرورگر ذخیره می‌شود.</p>
+</section>
 <div class="footer" data-fa="قیمت‌ها تقریبی هستند؛ این ابزار توصیه مالی نیست." data-en="Prices are indicative; this tool is not financial advice.">قیمت‌ها تقریبی هستند؛ این ابزار توصیه مالی نیست.</div>
 </div>
 <script>
