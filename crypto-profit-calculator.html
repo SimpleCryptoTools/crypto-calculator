@@ -1,77 +1,191 @@
-
+```html
 <!doctype html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Crypto Profit Calculator Guide: How to Calculate Crypto Gains</title>
-  <meta name="description" content="Learn how to calculate cryptocurrency profit and loss with simple examples, trading fees, and a free crypto calculator.">
+  <title>راهنمای محاسبه سود و زیان ارز دیجیتال | ماشین‌حساب ارز دیجیتال</title>
+  <meta name="description" content="راهنمای فارسی محاسبه سود و زیان ارز دیجیتال، کارمزد معاملات بیت‌کوین و بازده سرمایه با مثال‌های ساده.">
   <link rel="canonical" href="https://simplecryptotools.github.io/crypto-calculator/crypto-profit-calculator.html">
   <meta name="robots" content="index,follow">
   <style>
-    body{font-family:Arial,sans-serif;max-width:850px;margin:40px auto;padding:0 20px;line-height:1.8;color:#202938;background:#f8fafc}
-    h1,h2{line-height:1.3;color:#14213d}
-    .panel{background:white;padding:22px;border-radius:12px;margin:20px 0}
-    a{color:#075dcc}
-    .formula{background:#e8f1ff;padding:14px;border-radius:8px;font-weight:bold}
+    * { box-sizing: border-box; }
+    body {
+      font-family: Arial, Tahoma, sans-serif;
+      max-width: 850px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.9;
+      color: #202938;
+      background: #f8fafc;
+    }
+    h1, h2, h3 { line-height: 1.5; color: #14213d; }
+    .panel {
+      background: white;
+      padding: 22px;
+      border-radius: 12px;
+      margin: 20px 0;
+    }
+    a { color: #075dcc; }
+    .formula {
+      background: #e8f1ff;
+      padding: 14px;
+      border-radius: 8px;
+      font-weight: bold;
+      overflow-wrap: anywhere;
+    }
+    .language {
+      display: inline-block;
+      padding: 9px 15px;
+      border: 0;
+      border-radius: 8px;
+      background: #14213d;
+      color: white;
+      cursor: pointer;
+      font-size: 15px;
+    }
+    [hidden] { display: none !important; }
+    .english { direction: ltr; text-align: left; }
+    footer { padding: 10px 0 30px; }
   </style>
 </head>
 <body>
-  <header>
-    <p><a href="./">Simple Crypto Tools</a></p>
-    <h1>Crypto Profit Calculator Guide</h1>
-    <p>Learn how to calculate cryptocurrency profit, loss, and return on investment with easy examples.</p>
-  </header>
+  <button class="language" id="languageButton" type="button"
+    aria-label="Change language">English</button>
 
-  <main>
-    <section class="panel">
-      <h2>How Do You Calculate Crypto Profit?</h2>
-      <p>Crypto profit is the difference between the amount you receive when selling cryptocurrency and the amount you originally paid to buy it. Trading fees can affect your final result.</p>
-      <p class="formula">Profit or Loss = Selling Value − Buying Cost − Fees</p>
-    </section>
+  <div id="persian" lang="fa" dir="rtl">
+    <header>
+      <p><a href="./">ماشین‌حساب ارز دیجیتال</a></p>
+      <h1>راهنمای محاسبه سود و زیان ارز دیجیتال</h1>
+      <p>با چند مثال ساده، سود، زیان، کارمزد معاملات و بازده سرمایه در ارزهای دیجیتال را محاسبه کنید.</p>
+    </header>
 
-    <section class="panel">
-      <h2>Example: Calculating Bitcoin Profit</h2>
-      <p>Imagine you buy cryptocurrency for $1,000 and later sell it for $1,200. Your trading fees total $10.</p>
-      <ul>
-        <li>Buying cost: $1,000</li>
-        <li>Selling value: $1,200</li>
-        <li>Total fees: $10</li>
-        <li>Net profit: $190</li>
-      </ul>
-      <p>Your return after fees is 19% of your original $1,000 investment.</p>
-    </section>
+    <main>
+      <section class="panel">
+        <h2>چگونه سود ارز دیجیتال را محاسبه کنیم؟</h2>
+        <p>سود معامله از تفاوت ارزش فروش ارز دیجیتال و هزینه خرید آن به دست می‌آید. برای محاسبه نتیجه واقعی‌تر، کارمزدهای معامله را نیز در نظر بگیرید.</p>
+        <p class="formula">سود یا زیان خالص = ارزش فروش − هزینه خرید − کارمزدها</p>
+      </section>
 
-    <section class="panel">
-      <h2>How to Calculate Crypto Loss</h2>
-      <p>If you buy an asset for $1,000 and sell it for $800, you lose $200 before fees. Include transaction fees to estimate your complete result.</p>
-    </section>
+      <section class="panel">
+        <h2>مثال محاسبه سود معامله</h2>
+        <p>فرض کنید ارز دیجیتالی را به ارزش ۱۰۰۰ دلار خریداری می‌کنید و بعد آن را به قیمت ۱۲۰۰ دلار می‌فروشید. مجموع کارمزد خرید و فروش شما ۱۰ دلار است.</p>
+        <ul>
+          <li>هزینه خرید: ۱۰۰۰ دلار</li>
+          <li>ارزش فروش: ۱۲۰۰ دلار</li>
+          <li>مجموع کارمزدها: ۱۰ دلار</li>
+          <li>سود خالص: ۱۹۰ دلار</li>
+        </ul>
+        <p>بازده سرمایه پس از کسر کارمزد، ۱۹ درصد از مبلغ اولیه سرمایه‌گذاری است.</p>
+      </section>
 
-    <section class="panel">
-      <h2>Why Trading Fees Matter</h2>
-      <p>Exchanges may charge fees when you buy or sell cryptocurrency. Network fees may also apply when transferring assets. Ignoring these costs can make your estimated profit higher than your actual profit.</p>
-    </section>
+      <section class="panel">
+        <h2>چگونه زیان ارز دیجیتال را محاسبه کنیم؟</h2>
+        <p>اگر دارایی‌ای را به قیمت ۱۰۰۰ دلار بخرید و به قیمت ۸۰۰ دلار بفروشید، پیش از محاسبه کارمزدها ۲۰۰ دلار زیان کرده‌اید. برای برآورد زیان نهایی، کارمزدهای مربوط را نیز کسر کنید.</p>
+      </section>
 
-    <section class="panel">
-      <h2>Calculate Your Own Crypto Profit</h2>
-      <p>Use our free crypto calculator to explore your potential profit or loss.</p>
-      <p><a href="./">Open the Crypto Calculator and Portfolio Tracker</a></p>
-    </section>
+      <section class="panel">
+        <h2>چرا کارمزد معاملات مهم است؟</h2>
+        <p>صرافی‌ها ممکن است هنگام خرید یا فروش ارز دیجیتال کارمزد دریافت کنند. برای انتقال دارایی نیز ممکن است کارمزد شبکه وجود داشته باشد. نادیده گرفتن این هزینه‌ها می‌تواند باعث شود سود محاسبه‌شده بیشتر از سود واقعی باشد.</p>
+      </section>
 
-    <section class="panel">
-      <h2>Frequently Asked Questions</h2>
-      <h3>Is crypto profit calculated before or after fees?</h3>
-      <p>For a more realistic result, subtract applicable trading and transaction fees from your profit.</p>
-      <h3>What is crypto return on investment?</h3>
-      <p>Return on investment (ROI) expresses profit or loss as a percentage of the original investment.</p>
-      <h3>Does a profit calculator predict future prices?</h3>
-      <p>No. A calculator estimates results from the values you enter. It cannot predict future cryptocurrency prices.</p>
-    </section>
-  </main>
+      <section class="panel">
+        <h2>محاسبه سود معامله خودتان</h2>
+        <p>از ماشین‌حساب رایگان ما برای بررسی سود یا زیان احتمالی معامله استفاده کنید.</p>
+        <p><a href="./">ورود به ماشین‌حساب و مدیریت سبد ارز دیجیتال</a></p>
+      </section>
 
-  <footer>
-    <p>Educational information only. Cryptocurrency prices can be volatile, and this page is not financial advice.</p>
-    <p><a href="./">Return to Simple Crypto Tools</a></p>
-  </footer>
+      <section class="panel">
+        <h2>سؤالات متداول</h2>
+        <h3>سود ارز دیجیتال را قبل از کارمزد محاسبه کنیم یا بعد از آن؟</h3>
+        <p>برای برآورد واقع‌بینانه‌تر، کارمزدهای معامله و سایر هزینه‌های مربوط را از سود کم کنید.</p>
+        <h3>بازده سرمایه یا ROI چیست؟</h3>
+        <p>بازده سرمایه (ROI) نشان می‌دهد سود یا زیان شما چه درصدی از مبلغ اولیه سرمایه‌گذاری بوده است.</p>
+        <h3>آیا ماشین‌حساب سود، قیمت آینده ارز دیجیتال را پیش‌بینی می‌کند؟</h3>
+        <p>خیر. ماشین‌حساب فقط بر اساس اعدادی که وارد می‌کنید نتیجه را محاسبه می‌کند و قادر به پیش‌بینی قیمت آینده نیست.</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>این صفحه صرفاً آموزشی است. قیمت ارزهای دیجیتال ممکن است نوسان زیادی داشته باشد و محتوای آن توصیه مالی نیست.</p>
+      <p><a href="./">بازگشت به ماشین‌حساب ارز دیجیتال</a></p>
+    </footer>
+  </div>
+
+  <div id="english" class="english" lang="en" dir="ltr" hidden>
+    <header>
+      <p><a href="./">Simple Crypto Tools</a></p>
+      <h1>Crypto Profit Calculator Guide</h1>
+      <p>Learn how to calculate cryptocurrency profit, loss, trading fees, and return on investment with simple examples.</p>
+    </header>
+
+    <main>
+      <section class="panel">
+        <h2>How Do You Calculate Crypto Profit?</h2>
+        <p>Crypto profit is the difference between the amount you receive when selling cryptocurrency and the amount you originally paid to buy it. Trading fees can affect your final result.</p>
+        <p class="formula">Profit or Loss = Selling Value − Buying Cost − Fees</p>
+      </section>
+
+      <section class="panel">
+        <h2>Example: Calculating Crypto Profit</h2>
+        <p>Imagine you buy cryptocurrency for $1,000 and later sell it for $1,200. Your total trading fees are $10.</p>
+        <ul>
+          <li>Buying cost: $1,000</li>
+          <li>Selling value: $1,200</li>
+          <li>Total fees: $10</li>
+          <li>Net profit: $190</li>
+        </ul>
+        <p>Your return after fees is 19% of your original $1,000 investment.</p>
+      </section>
+
+      <section class="panel">
+        <h2>How to Calculate Crypto Loss</h2>
+        <p>If you buy an asset for $1,000 and sell it for $800, you lose $200 before fees. Include transaction fees to estimate your complete result.</p>
+      </section>
+
+      <section class="panel">
+        <h2>Why Trading Fees Matter</h2>
+        <p>Exchanges may charge fees when you buy or sell cryptocurrency. Network fees may also apply when transferring assets. Ignoring these costs can make your estimated profit higher than your actual profit.</p>
+      </section>
+
+      <section class="panel">
+        <h2>Calculate Your Own Crypto Profit</h2>
+        <p>Use our free crypto calculator to explore your potential profit or loss.</p>
+        <p><a href="./">Open the Crypto Calculator and Portfolio Tracker</a></p>
+      </section>
+
+      <section class="panel">
+        <h2>Frequently Asked Questions</h2>
+        <h3>Is crypto profit calculated before or after fees?</h3>
+        <p>For a more realistic result, subtract applicable trading and transaction fees from your profit.</p>
+        <h3>What is crypto return on investment?</h3>
+        <p>Return on investment (ROI) expresses profit or loss as a percentage of the original investment.</p>
+        <h3>Does a profit calculator predict future prices?</h3>
+        <p>No. A calculator estimates results from the values you enter. It cannot predict future cryptocurrency prices.</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>Educational information only. Cryptocurrency prices can be volatile, and this page is not financial advice.</p>
+      <p><a href="./">Return to Simple Crypto Tools</a></p>
+    </footer>
+  </div>
+
+  <script>
+    const languageButton = document.getElementById('languageButton');
+    const persian = document.getElementById('persian');
+    const english = document.getElementById('english');
+
+    languageButton.addEventListener('click', function () {
+      const showEnglish = english.hidden;
+      english.hidden = !showEnglish;
+      persian.hidden = showEnglish;
+
+      document.documentElement.lang = showEnglish ? 'en' : 'fa';
+      document.documentElement.dir = showEnglish ? 'ltr' : 'rtl';
+      languageButton.textContent = showEnglish ? 'فارسی' : 'English';
+    });
+  </script>
 </body>
 </html>
+```
